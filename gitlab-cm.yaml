@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: gitlab
+  name: gitlab-cm
+data:
+  # Timezone
+  TZ: "Europe/Berlin"
+  GITLAB_TIMEZONE: "Bern"
+  # GitLab
+  GITLAB_ROOT_EMAIL: "g@gchevalley.tech"
+  GITLAB_HOST: "gitlab.gchevalley.tech"
+  GITLAB_PORT: "443"
+  GITLAB_SSH_HOST: "gitlab.gchevalley.tech"
+  GITLAB_SSH_PORT: "30022"
+  GITLAB_HTTPS: "true"
+  GITLAB_NOTIFY_ON_BROKEN_BUILDS: "true"
+  GITLAB_NOTIFY_PUSHER: "false"
+  GITLAB_PIPELINE_SCHEDULE_WORKER_CRON: "*/5 * * * *"
+  # GitLab Backup
+  GITLAB_BACKUP_SCHEDULE: "daily"
+  GITLAB_BACKUP_TIME: "04:30"
+  # GitLab DB
+  DB_ADAPTER: "postgresql"
+  DB_TYPE: "postgres"
+  DB_HOST: "gitlab-postgresql"
+  DB_PORT: "5432"
+  DB_USER: "gitlab"
+  DB_NAME: "gitlab"
+  # GitLab Redis
+  REDIS_HOST: "gitlab-redis"
+  REDIS_PORT: "6379"
+  # Nginx settings
+  #NGINX_MAX_UPLOAD_SIZE: "100m"
+  # GitLab SMTP settings
+  GITLAB_EMAIL: "noreply@example.com"
+  GITLAB_EMAIL_DISPLAY_NAME: "GitLab Chevalley Tech"
+  GITLAB_EMAIL_REPLY_TO: "gitlab@example.com"
+  SMTP_ENABLED: "false"
+  SMTP_DOMAIN: "example.com"
+  SMTP_HOST: "smtp.example.com"
+  SMTP_PORT: "587"
+  SMTP_USER: "gitlab"
+  SMTP_STARTTLS: "true"
+  SMTP_AUTHENTICATION: "login"
+  # GitLab IMAP settings
+  IMAP_ENABLED: "false"
+  IMAP_HOST: imap.example.com
+  IMAP_PORT: "993"
+  IMAP_USER: "mailer@example.com"
+  IMAP_SSL: "true"
+  IMAP_STARTTLS: "false"
+  # Your other config vars below

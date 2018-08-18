@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitlab-ce
+  labels:
+    app: gitlab
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+    - name: ssh
+      port: 22
+      targetPort: ssh
+      nodePort: 30022
+  selector:
+    app: gitlab
+    tier: ce
+  type: NodePort
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gitlab-ce
+  labels:
+    app: gitlab
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: gitlab
+        tier: ce
+    spec:
+      containers:
+      - image: sameersbn/gitlab:11.1.4
+        name: gitlab
+        envFrom:
+          - configMapRef:
+              name: gitlab-cm
+          - secretRef:
+              name: gitlab-secret
+        ports:
+        - name: http
+          containerPort: 80
+        - name: ssh
+          containerPort: 22
+        volumeMounts:
+        - mountPath: /home/git/data
+          name: data
+        #livenessProbe:
+        #  httpGet:
+        #    path: /
+        #    port: 80
+        #  initialDelaySeconds: 180
+        #  timeoutSeconds: 5
+        #readinessProbe:
+        #  httpGet:
+        #    path: /
+        #    port: 80
+        #  initialDelaySeconds: 5
+        #  timeoutSeconds: 1
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: gitlab-ce-pv-claim

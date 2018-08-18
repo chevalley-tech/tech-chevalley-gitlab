@@ -1,0 +1,5 @@
+ca.crt
+ca.key
+gitlab-secret.yaml
+ca-issuer.yaml
+gitlab-ingress.yaml
