@@ -1,5 +1,9 @@
+gitlab-ci-runner/gitlab-ci-runner-secret.yaml
+ingress/*
+rook/*
 ca.crt
 ca.key
 gitlab-secret.yaml
 ca-issuer.yaml
+ca-clusterissuer.yaml
 gitlab-ingress.yaml

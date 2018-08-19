@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: gitlab
   name: gitlab-redis
   labels:
     app: gitlab
@@ -17,6 +18,7 @@ spec:
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
+  namespace: gitlab
   name: gitlab-redis
   labels:
     app: gitlab

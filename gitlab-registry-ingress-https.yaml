@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: gitlab
+  name: ingress-gitlab-registrys-https
+  annotations:
+    certmanager.k8s.io/cluster-issuer: ca-clusterissuer
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+spec:
+  tls:
+  - hosts:
+    - registrys.gchevalley.tech
+    secretName: registrys-gchevalley-service-tls
+  rules:
+  - host: registrys.gchevalley.tech
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: gitlab-registry
+          servicePort: 5000

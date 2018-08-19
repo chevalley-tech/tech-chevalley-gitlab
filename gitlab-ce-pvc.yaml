@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  namespace: gitlab
   name: gitlab-ce-pv-claim
   labels:
     app: gitlab

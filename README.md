@@ -23,7 +23,6 @@ data:
   SMTP_PASS: __YOUR_SMTP_PASS__
   IMAP_PASS: __YOUR_IMAP_PASS__
   GITLAB_ROOT_PASSWORD: __YOUR_GITLAB_ROOT_PASSWORD__
-
 ```
 
 ### adapt the config `gitlab-cm.yaml`
@@ -37,17 +36,20 @@ GITLAB_TIMEZONE
 ```
 
 ### deploy
+1. `kubectl create -f gitlab-namespace.yaml`
 1. `kubectl create -f gitlab-secret.yaml`
-1. `kubectl create -f gitlab-cm.yaml`
+1. `kubectl create -f gitlab-cm-commmon.yaml`
+1. `kubectl create -f gitlab-cm-http.yaml`
+1. `kubectl create -f gitlab-cm-https.yaml`
 1. `kubectl create -f gitlab-postgresql-pvc.yaml`
 1. `kubectl create -f gitlab-redis-pvc.yaml`
 1. `kubectl create -f gitlab-ce-pvc.yaml`
 1. `kubectl create -f gitlab-postgresql.yaml`
 1. `kubectl create -f gitlab-redis.yaml`
-1. `kubectl create -f gitlab-ce.yaml`
+1. `kubectl create -f gitlab-ce-httpX.yaml`
 
 
-### ingress
+#### ingress SSL
 ```
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -77,5 +79,31 @@ spec:
         backend:
           serviceName: gitlab-ce
           servicePort: 80
+```
+
+### gitlab ci runner
+
+retrieve registration token from the page `/admin/runners`
+
+
+prepare `gitlab-ci-runner-secret`
 
 ```
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gitlab-ci-token
+  namespace: gitlab-build
+  labels:
+    app: gitlab-ci-runner
+data:
+  GITLAB_CI_TOKEN: <base64 gitlab-ci-runner-registration-token>
+```
+
+1. `kubectl create -f gitlab-ci-runner-namespace.yaml`
+1. `kubectl create -f gitlab-ci-runner-secret.yaml`
+1. `kubectl create -f gitlab-ci-runner-rbac.yaml`
+1. `kubectl create -f gitlab-ci-runner-configmap.yaml`
+1. `kubectl create -f gitlab-ci-runner.yaml`
+

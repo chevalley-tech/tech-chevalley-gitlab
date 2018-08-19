@@ -1,20 +1,17 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  namespace: gitlab
+  name: gitlab-cm-common
   labels:
     app: gitlab
-  name: gitlab-cm
 data:
   # Timezone
   TZ: "Europe/Berlin"
   GITLAB_TIMEZONE: "Bern"
   # GitLab
   GITLAB_ROOT_EMAIL: "g@gchevalley.tech"
-  GITLAB_HOST: "gitlab.gchevalley.tech"
-  GITLAB_PORT: "443"
-  GITLAB_SSH_HOST: "gitlab.gchevalley.tech"
   GITLAB_SSH_PORT: "30022"
-  GITLAB_HTTPS: "true"
   GITLAB_NOTIFY_ON_BROKEN_BUILDS: "true"
   GITLAB_NOTIFY_PUSHER: "false"
   GITLAB_PIPELINE_SCHEDULE_WORKER_CRON: "*/5 * * * *"
@@ -51,4 +48,10 @@ data:
   IMAP_USER: "mailer@example.com"
   IMAP_SSL: "true"
   IMAP_STARTTLS: "false"
+  # docker registry
+  GITLAB_REGISTRY_ENABLED: "false"
+  GITLAB_REGISTRY_HOST: "registrys.gchevalley.tech"
+  GITLAB_REGISTRY_PORT: "443"
+  GITLAB_REGISTRY_API_URL: "http://gitlab-registry:5000"
+  GITLAB_REGISTRY_KEY_PATH: "/certs/tls.key"
   # Your other config vars below

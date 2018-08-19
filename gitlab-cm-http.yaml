@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: gitlab
+  name: gitlab-cm-http
+  labels:
+    app: gitlab
+data:
+  GITLAB_PORT: "80"
+  GITLAB_HTTPS: "false"
+  GITLAB_HOST: "gitlab.gchevalley.tech"
+  GITLAB_SSH_HOST: "gitlab.gchevalley.tech"
