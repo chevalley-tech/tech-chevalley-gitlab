@@ -4,13 +4,14 @@ based on the work of https://edenmal.moe/post/2017/GitLab-Kubernetes-GitLab-on-t
 
 ## kubernetes deployment
 
-### prepare your secret file
+### prepare your secret file `gitlab-secret.yaml`
 `echo -n "YOUR_VALUE" | base64 -w0`
 
 ```
 apiVersion: v1
 kind: Secret
 metadata:
+  namespace: gitlab
   labels:
     app: gitlab
   name: gitlab-secret
@@ -38,15 +39,14 @@ GITLAB_TIMEZONE
 ### deploy
 1. `kubectl create -f gitlab-namespace.yaml`
 1. `kubectl create -f gitlab-secret.yaml`
-1. `kubectl create -f gitlab-cm-commmon.yaml`
-1. `kubectl create -f gitlab-cm-http.yaml`
+1. `kubectl create -f gitlab-cm-common.yaml`
 1. `kubectl create -f gitlab-cm-https.yaml`
 1. `kubectl create -f gitlab-postgresql-pvc.yaml`
 1. `kubectl create -f gitlab-redis-pvc.yaml`
 1. `kubectl create -f gitlab-ce-pvc.yaml`
 1. `kubectl create -f gitlab-postgresql.yaml`
 1. `kubectl create -f gitlab-redis.yaml`
-1. `kubectl create -f gitlab-ce-httpX.yaml`
+1. `kubectl create -f gitlab-ce-https.yaml`
 
 
 #### ingress SSL
@@ -86,7 +86,7 @@ spec:
 retrieve registration token from the page `/admin/runners`
 
 
-prepare `gitlab-ci-runner-secret`
+prepare `gitlab-ci-runner-secret.yaml`
 
 ```
 ---
